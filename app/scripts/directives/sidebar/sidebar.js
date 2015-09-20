@@ -15,11 +15,19 @@ angular.module('sbAdminApp')
       replace: true,
       scope: {
       },
-      controller:function($scope){
+      controller:function($scope , $firebaseArray){
         $scope.selectedMenu = 'dashboard';
         $scope.collapseVar = 0;
         $scope.multiCollapseVar = 0;
         
+        var categoriesRef = new Firebase("https://9lives.firebaseio.com/categories");
+
+        $scope.categories = $firebaseArray(categoriesRef);
+
+         var faceRef = new Firebase("https://9lives.firebaseio.com/categories/face-matrix/child");
+         $scope.faces = $firebaseArray(faceRef);
+
+
         $scope.check = function(x){
           
           if(x==$scope.collapseVar)

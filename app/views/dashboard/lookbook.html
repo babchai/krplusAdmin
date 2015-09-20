@@ -1,0 +1,50 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{{name}}</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row" style="text-align:right; margin-bottom:20px" ng-show="!addNew">
+        <button class="btn btn-primary" ng-click="addNewPhoto()"> Add New Photo </button>
+    </div>
+<div class="row well" style="margin-bottom:25px" ng-show="addNew">
+   <form  class="form-inline" action="http://www.krplus.com/lookbook/index.php" id="upload-form" method="post" enctype="multipart/form-data" target="_blank" name="form">
+    <!--  <form  class="form-inline" action="http://localhost/file-upload/index.php" id="upload-form" method="post" enctype="multipart/form-data" target="_blank" name="form"> -->
+ 
+  <div class="form-group">
+      <input type="file" ng-model="image" accept="image/jpg" app-filereader name="image_file" />
+      <input type="text" name="filename" ng-model="newFilename" style="display:none">
+      <input type="text" name="category" ng-model="category" style="display:none">
+    </div>
+    <div class="form-group">  
+      <input type="submit"  value="Upload" ng-click="submit()" class="btn btn-default" />
+      </div>
+  </form>
+</div>
+<div class="row">
+
+  <div class="row" >
+  <div class="col-md-3 card" ng-repeat="item in lookbooks | orderBy:'uploadtime'">
+  <div class="thumbnail">
+       <div style="min-height:251px ; 
+           background-color:white;
+           background:url('http://krplus.com/lookbook/{{category}}/{{item.filename}}') ;
+           background-size:cover ; 
+           background-repeat: no-repeat;
+           ">
+         
+        </div>      
+      <div class="caption">
+        <p style="text-align:right"><a class="btn btn-danger" 
+          confirmed-click="remove('{{item.$id}}')"
+          ng-confirm-click="Are you sure?"
+         role="button">Delete</a> 
+         </p>
+      </div>
+    </div>
+  </div>
+</div> 
+
+</div>
