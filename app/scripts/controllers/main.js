@@ -50,9 +50,16 @@ angular.module('sbAdminApp')
     $scope.category = $stateParams.category;
     $scope.name = $stateParams.name;
     $scope.lookbooks = [];
-    var loolbookRef = new Firebase("https://9lives.firebaseio.com/lookbook2/"+$stateParams.category);
+    $scope.newTag = '';
+
+    var dataRef = new Firebase("https://9lives.firebaseio.com/");
+
+    //var lookbookRef = new Firebase("https://9lives.firebaseio.com/lookbook2/"+$stateParams.category);
     
-    $scope.lookbooks = $firebaseArray(loolbookRef);
+    var lookbookRef = dataRef.child('lookbook2/'+$stateParams.category);
+
+
+    $scope.lookbooks = $firebaseArray(lookbookRef);
 
 
     var TIMESTAMP = Math.round((new Date()).getTime() / 1000);
@@ -70,11 +77,41 @@ angular.module('sbAdminApp')
         $scope.addNew = true;
      }
 
+     $scope.addTag = function(item)
+     {
+      var filename = item.filename.split('.');
+      console.log(this.newTag);
+
+      var tag = this.newTag
+      
+        var tagRef = dataRef.child('tags/'+tag).once('value', function(data){
+         if(data.numChildren() > 0)
+         {
+            dataRef.child('tags/'+tag+'/Links').push({
+              'category': $stateParams.category,
+              'photo': filename[0]
+            })  
+         }
+         else
+         {
+            dataRef.child('tags/'+tag).update({
+              'Links' : [{
+                'category':$stateParams.category,
+                'photo':filename[0]
+              }]
+            })
+         }
+        })
+
+        lookbookRef.child(item.$id+'/tags').push(tag);
+
+     }
+
     $scope.remove = function(id)
     {
      
         console.log('removed', id);
-        var items = loolbookRef.child(id);
+        var items = lookbookRef.child(id);
 
         // items.on('value', function(snapshot){
         //   console.log(snapshot.val());
@@ -93,7 +130,7 @@ angular.module('sbAdminApp')
      $scope.submit = function(e) {
      
       $scope.addNew = false;
-      loolbookRef.push({
+      lookbookRef.push({
         'filename':$scope.newFilename,
         'status' : 'active',
         'uploadtime' : TIMESTAMP

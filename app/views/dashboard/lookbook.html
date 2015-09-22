@@ -37,7 +37,13 @@
          
         </div>      
       <div class="caption">
-        <p style="text-align:right"><a class="btn btn-danger" 
+      <span class="label label-default" ng-repeat="tag in item.tags" style="margin:3px">#{{tag}}</span>
+      <div class="form-inline">
+        <input class="form-control" ng-model="newTag" placeholder="New Tag" />
+        <button class="btn btn-default" ng-click="addTag(item)">Add</button>
+      </div>
+
+        <p style="text-align:right; margin-top:10px"><a class="btn btn-danger" 
           confirmed-click="remove('{{item.$id}}')"
           ng-confirm-click="Are you sure?"
          role="button">Delete</a> 
