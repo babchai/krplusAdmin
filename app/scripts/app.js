@@ -14,8 +14,19 @@ angular
     'ui.bootstrap',
     'angular-loading-bar'
   ])
+
+  .config(function($sceDelegateProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist([
+    // Allow same origin resource loads.
+    'self',
+    // Allow loading from outer templates domain.
+    'https://www.youtube.com/**'
+  ]); 
+ })
+     
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
-    
+   
+
     $ocLazyLoadProvider.config({
       debug:false,
       events:true,
@@ -36,7 +47,8 @@ angular
                     'scripts/directives/header/header.js',
                     'scripts/directives/header/header-notification/header-notification.js',
                     'scripts/directives/sidebar/sidebar.js',
-                    'scripts/directives/sidebar/sidebar-search/sidebar-search.js'
+                    'scripts/directives/sidebar/sidebar-search/sidebar-search.js',
+                    'scripts/directives/emptyToNull.js'
                     ]
                 }),
                 $ocLazyLoad.load(
@@ -155,6 +167,13 @@ angular
                 'bower_components/angularfire/dist/angularfire.min.js'
               ]
             }),
+            $ocLazyLoad.load({
+                name:'ngFileUpload',
+                files:[
+                'bower_components/ng-file-upload-shim/ng-file-upload-shim.min.js',
+                'bower_components/ng-file-upload/ng-file-upload.min.js'
+                ]
+            }),
               $ocLazyLoad.load({
                 name:'xeditable',
                 files:[
@@ -215,6 +234,13 @@ angular
                 'bower_components/angular-filter/dist/angular-filter.min.js',
                 ]
             }),
+             $ocLazyLoad.load({
+                name:'ngFileUpload',
+                files:[
+                'bower_components/ng-file-upload-shim/ng-file-upload-shim.min.js',
+                'bower_components/ng-file-upload/ng-file-upload.min.js'
+                ]
+            }),
             $ocLazyLoad.load({
                 name:'ng-uploadcare',
                 files:[
@@ -230,6 +256,67 @@ angular
                 ]
             })
             
+          }
+        }
+      })
+      .state('dashboard.video',{
+        templateUrl:'views/dashboard/video.html',
+        url:'/video',
+        controller:'videoCtrl',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'firebase',
+              files:[
+                'bower_components/firebase/firebase.js',
+                'bower_components/angularfire/dist/angularfire.min.js'
+              ]
+            }),
+            $ocLazyLoad.load({
+                name:'angular.filter',
+                files:[
+                'bower_components/angular-filter/dist/angular-filter.min.js',
+                ]
+            }),
+            $ocLazyLoad.load({
+                name:'ng-uploadcare',
+                files:[
+                'bower_components/angular-uploadcare/angular-uploadcare.js',
+                ]
+            }),
+             $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                 'scripts/controllers/main.js',
+                 'scripts/directives/confirmation/confirmation.js',
+                 'scripts/directives/filereader.js'
+                ]
+            })
+            
+          }
+        }
+      })
+      .state('dashboard.tnc',{
+        url:'/tnc',
+        controller: 'tncCtrl',
+        templateUrl:'views/dashboard/tnc.html',
+        resolve: {
+          loadMyFiles:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                 'scripts/controllers/main.js',
+                 'scripts/directives/confirmation/confirmation.js',
+                 'scripts/directives/filereader.js'
+                ]
+            }),
+             $ocLazyLoad.load({
+                  name:'firebase',
+                  files:[
+                    'bower_components/firebase/firebase.js',
+                    'bower_components/angularfire/dist/angularfire.min.js'
+                  ]
+                })
           }
         }
       })

@@ -27,6 +27,8 @@ angular.module('sbAdminApp')
          var faceRef = new Firebase("https://9lives.firebaseio.com/categories/face-matrix/child");
          $scope.faces = $firebaseArray(faceRef);
 
+         var stylistRef = new Firebase("https://9lives.firebaseio.com/categories/stylist/child");
+         $scope.stylist = $firebaseArray(stylistRef);
 
         $scope.check = function(x){
           

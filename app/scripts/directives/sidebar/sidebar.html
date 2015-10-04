@@ -11,20 +11,28 @@
             <li ui-sref-active="active">
                 <a ui-sref="dashboard.promotion"><i class="fa fa-bell fa-fw"></i>Promotions</a>
             </li>
-
+            <li ui-sref-active="active">
+                <a ui-sref="dashboard.video"><i class="fa fa-bell fa-fw"></i>Videos</a>
+            </li>
             <li ng-class="{active: collapseVar==1}">
                 <a   ng-click="check(1)">
                 <i class="fa fa-file-image-o fa-fw"></i>kr+ Lookbook 
                 <span class="fa arrow"></span></a>
-                <ul class="nav in" collapse="collapseVar!=1">
+                <ul class="nav nav-second-level" collapse="collapseVar!=1">
                     <li ng-class="{active: collapseVar==1}" ng-repeat = "category in categories">
                         <a href="#/dashboard/lookbook/{{category.key}}/{{category.name}}">{{category.name}}</a>
-                           <ul class="nav nav-second-level" collapse="collapseVar!=1" ng-if="category.key== 'face-matrix'">
+                            <ul class="nav nav-third-level"  ng-if="category.key== 'face-matrix'">
                               <li ui-sref-active="active" ng-repeat="face in faces">
                                 <a href="#/dashboard/lookbook/{{face.key}}/{{face.key}}">{{face.name}}</a>
                             </li>
-                           
+                           </ul>
+
+                           <ul class="nav nav-third-level"  ng-if="category.key== 'stylist'">
+                              <li ui-sref-active="active" ng-repeat="style in stylist">
+                                <a href="#/dashboard/lookbook/{{style.key}}/{{style.key}}">{{style.name}}</a>
+                            </li>
                          </ul>
+
                     </li>
                 </ul>
             </li>

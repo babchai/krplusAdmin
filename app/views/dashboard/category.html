@@ -14,7 +14,7 @@
             </div>
             <div class="panel-body">
                 <ul class="list-group">
-                  <li class="list-group-item" ng-repeat="category in categories">
+                  <li class="list-group-item" ng-repeat="category in categories | filter:{'key':'!stylist'} |filter:{'key':'!face-matrix'}">
                         <a href="#" editable-text="category.name" onbeforesave="save($data , category)">{{category.name || "empty" }}</a>
                         <button class=" btn-danger btn-xs pull-right" 
                          confirmed-click="remove(category)"
@@ -29,6 +29,25 @@
              <!--  <div>
                     <span class="btn btn-primary pull-right" ng-click="newItem()">New Category</span>
               </div> -->
+
+              <div  style="clear:both"></div>
+              <br />
+                <ul class="list-group">
+                  <li class="list-group-item" ng-repeat="category2 in categories | filter:{'key':'stylist'}">
+                        <a href="#" editable-text="category2.name" onbeforesave="save($data , category2)">{{category2.name || "empty" }}</a>
+                        <br /><br />
+                        <ul class="list-group">
+                        <li class="list-group-item" ng-repeat ="child in category2.child">
+                            <a href="#" editable-text="child.name" onbeforesave="save($data , child)">{{child.name || "empty" }}</a>
+                            <button class=" btn-danger btn-xs pull-right" ng-click ="remove(child)">Delete</button>
+                        </li>
+                         <li class="list-group-item" style="text-align: right;">
+                          <span class="btn btn-primary" ng-click="newItem()">New Category</span>
+                          </li>
+                        </ul>
+                  </li>
+                </ul>
+
               <div  style="clear:both"></div>
               <br />
                 <ul class="list-group">

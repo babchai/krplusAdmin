@@ -7,6 +7,20 @@
     </div>
     <!-- /.row -->
     <div class="row">
+
+    <form ng-app="fileUpload"  name="form">
+      Single Image with validations
+      <div class="btn btn-primary" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
+        accept="image/*" ngf-max-size="20MB" ngf-min-height="100" 
+        ngf-resize="{width: 100, height: 100}">Select</div>
+
+        <button type="submit" ng-click="submit()">submit</button>
+        {{file}}
+       </form>
+
+
+    </div>
+    <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -15,11 +29,31 @@
             <div class="panel-body">
                 <ul class="list-group">
                   <li class="list-group-item" ng-repeat="promotion in promotions">
+                  <img src = "https://www.krplus.com/app/promotion/icon/{{promotion.icon}}" style="width:100px" ng-show="promotion.icon">
                         <a href="#" editable-text="promotion.title" onbeforesave="save($data , promotion)">{{promotion.title || "empty" }}</a>
-                        <button class=" btn-danger btn-xs pull-right" 
+                        
+                        <button class=" btn-danger btn-xs pull-right"
+                        style="margin:3px" 
                          confirmed-click="remove(promotion)"
                          ng-confirm-click="Are you sure?"
-                        >Delete</button>
+                        >Delete</button> &nbsp;&nbsp;
+
+                        <button class=" btn-info btn-xs pull-right" 
+                         style="margin:3px" 
+                         ng-click="addIcon(promotion)"
+                        >Add Icon</button>&nbsp;&nbsp;
+
+                      <form ng-app="fileUpload"  name="form" class="well" style="width:200px" ng-show="promotion.showUpload">
+                      <label>Upload Icon</label><br>
+                          <div class="btn btn-default btn-sm" ngf-select ng-model="promotion.file" name="file" ngf-pattern="'image/*'"
+                            accept="image/*" ngf-max-size="20MB"
+                            >Select</div>
+                            <button type="submit" class="btn btn-default btn-sm" ng-click="submitUpload(promotion)">Submit</button>
+                            <br /> 
+                            {{promotion.file.name}}
+                      </form>
+
+                        
                   </li>
                   <li class="list-group-item" style="text-align: right;">
                   <span class="btn btn-primary" ng-click="newItem()">New Promotion</span>

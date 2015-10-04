@@ -10,10 +10,10 @@
         <button class="btn btn-primary" ng-click="addNewPhoto()"> Add New Photo </button>
     </div>
 <div class="row well" style="margin-bottom:25px" ng-show="addNew">
-   <form  class="form-inline" action="http://www.krplus.com/lookbook/index.php" id="upload-form" method="post" enctype="multipart/form-data" target="_blank" name="form">
-    <!--  <form  class="form-inline" action="http://localhost/file-upload/index.php" id="upload-form" method="post" enctype="multipart/form-data" target="_blank" name="form"> -->
+   <!-- <form  class="form-inline" action="http://www.krplus.com/lookbook/index.php" id="upload-form" method="post" enctype="multipart/form-data" target="_blank" name="form">
+     <form  class="form-inline" action="http://localhost/file-upload/index.php" id="upload-form" method="post" enctype="multipart/form-data" target="_blank" name="form"> -->
  
-  <div class="form-group">
+<!--   <div class="form-group">
       <input type="file" ng-model="image" accept="image/jpg" app-filereader name="image_file" />
       <input type="text" name="filename" ng-model="newFilename" style="display:none">
       <input type="text" name="category" ng-model="category" style="display:none">
@@ -22,11 +22,22 @@
       <input type="submit"  value="Upload" ng-click="submit()" class="btn btn-default" />
       </div>
   </form>
+ -->
+
+  <form ng-app="fileUpload"  name="form">
+  <label>Upload New Look</label><br />
+      <div class="btn btn-default btn-sm" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
+        accept="image/*" ngf-max-size="20MB"
+        >Select File</div>
+        <button type="submit" ng-click="submitUpload()" class="btn btn-default btn-sm" ng-show="file"> Upload</button>
+        {{file.name}}
+
+  </form>
+
 </div>
 <div class="row">
 
-  <div class="row" >
-  <div class="col-md-3 card" ng-repeat="item in lookbooks | orderBy:'uploadtime'">
+  <div class="col-md-3 card" ng-repeat="item in lookbooks | orderBy:'-uploadtime'">
   <div class="thumbnail">
        <div style="min-height:251px ; 
            background-color:white;
@@ -36,21 +47,81 @@
            ">
          
         </div>      
+        <!-- <div style="min-height:251px ; 
+           background-color:white;
+           background:url('http://localhost/file-upload/{{category}}/{{item.filename}}') ;
+           background-size:cover ; 
+           background-repeat: no-repeat;
+           "> -->
+         
+        </div>  
       <div class="caption">
-      <span class="label label-default" ng-repeat="tag in item.tags" style="margin:3px">#{{tag}}</span>
+      <div class="well well-sm" ng-show="item.tags">
+        <span class="label label-default" 
+        confirmed-click="removeTag(item, k, tag)"
+        ng-confirm-click="Remote this tag?"
+        ng-repeat="(k , tag) in item.tags" style="margin:3px; white-space:nowrap;  display: inline-block; cursor:pointer">#{{tag}}</span>
+      </div>
       <div class="form-inline">
         <input class="form-control" ng-model="newTag" placeholder="New Tag" />
         <button class="btn btn-default" ng-click="addTag(item)">Add</button>
       </div>
 
-        <p style="text-align:right; margin-top:10px"><a class="btn btn-danger" 
+      <div class="form-horizontal" >
+      <hr />
+        <div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" ng-model="item.name" id="inputName" placeholder="Name" value="{{item.name}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label">Desc</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" ng-model="item.desc" id="inputDesc" placeholder="Description" rows="5" emptyToNull>{{item.desc ||empty}}</textarea>
+            </div>
+        </div>
+
+      <div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label">Passion</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" ng-model="item.passion" id="inputDesc" placeholder="Passion"  rows="5" emptyToNull>{{item.passion || empty}</textarea>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label">Star Sign:</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" ng-model="item.star" id="inputDesc" placeholder="Star Sign" rows="5" emptyToNull>{{item.star || empty }}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputName" class="col-sm-2 control-label">Love match:</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" ng-model="item.love" id="inputDesc" placeholder="Love Match"  rows="5" emptyToNull>{{item.love || empty}}</textarea>
+            </div>
+        </div>
+
+      </div>
+
+      </div>
+
+        <p style="text-align:right; margin-top:10px">
+
+          <a class="btn btn-primary"
+          ng-click="saveStylist(item)" 
+         role="button">Save</a> 
+
+        <a class="btn btn-danger" 
           confirmed-click="remove('{{item.$id}}')"
           ng-confirm-click="Are you sure?"
          role="button">Delete</a> 
          </p>
       </div>
     </div>
-  </div>
 </div> 
 
 </div>
