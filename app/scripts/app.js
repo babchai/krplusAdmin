@@ -338,6 +338,12 @@ angular
               ]
             }),
              $ocLazyLoad.load({
+                name:'cgBusy',
+                files:[
+                  'bower_components/angular-busy/angular-busy.js'
+                ]
+             }),
+             $ocLazyLoad.load({
                 name:'sbAdminApp',
                 files:[
                  'scripts/controllers/main.js'

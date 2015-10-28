@@ -30,15 +30,12 @@ angular.module('sbAdminApp')
 
   .controller('LoginCtrl', function($scope,$position,$state) {
    
-    var userRef = new Firebase("https://9lives.firebaseio.com");
-
-
     $scope.user = {};
     
-
     $scope.login  = function(){
+      var userRef = new Firebase("https://9lives.firebaseio.com/");
 
-      userRef.authWithPassword({
+     $scope.promisses = userRef.authWithPassword({
         email    : $scope.user.email,
         password : $scope.user.password
       }, function(error, authData) { 
